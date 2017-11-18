@@ -6,7 +6,7 @@
     var $boxes = null;
     var $showBoundsCheck = null;
 
-    var _init = function _init() {
+    var _init = function _init () {
         var $body = $('body');
         var boxCount = 100;
         var boxWidth = 20;
@@ -38,7 +38,7 @@
         $boxes = $('#boxContainer div');
         // Mark a couple of boxes for testing and debugging
         $boxes.get(4).id = 'test';
-        $boxes.get(52).id = 'test2';
+        $boxes.get(55).id = 'test2';
 
         $showBoundsCheck = $('#show-boundary');
         events.init();
@@ -77,9 +77,9 @@
 
         // When a boundary value changes
         onBoundaryChange: function (evt) {
-            var target = evt.target,
-                val = parseInt(target.value, 10),
-                id = target.id;
+            var target = evt.target;
+            var val = parseInt(target.value, 10);
+            var id = target.id;
 
             // Positive value was entered (negative values are allowed, but the boundaries would be off screen)
             if (val > 0) {
@@ -156,7 +156,7 @@
     /////////
 
     // Display or hide the "show boundaries" check box if any values are set (non-zero)
-    var _toggleBoundaryToggle = function _toggleBoundaryToggle() {
+    var _toggleBoundaryToggle = function _toggleBoundaryToggle () {
         var somethingEntered = false;
 
         $('input[type="number"]').each(function () {
@@ -174,7 +174,7 @@
     };
 
     // Overlay a boundary line on the viewport when one is set by the user
-    var _drawBound = function _drawBound(side, dist) {
+    var _drawBound = function _drawBound (side, dist) {
         dist += 'px';
         switch (side) {
             case 'top':
@@ -216,12 +216,13 @@
 
     // Update each box's class to reflect whether it was determined to be within the viewport or not
     // Uses the jQuery plugin
-    var _updateBoxes = function _updateBoxes() {
+    var _updateBoxes = function _updateBoxes () {
         // Reset all boxes to being considered out of view
         $boxes
             .html('out')
             .attr('aria-hidden', 'true')
             .removeClass('inview');
+
         // Then run withinviewport() on them to reveal which ones are inside
         $boxes
             .withinviewport()
@@ -231,5 +232,4 @@
     }
 
     $(document).ready(_init);
-
 })(jQuery);

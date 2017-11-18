@@ -3,11 +3,16 @@
 ***Determine whether elements are within the viewport***
 
 Includes:
-    - A standalone, plain JavaScript function, `withinviewport()`
-    - AMD and Node/CommonJS support
-    - Optional jQuery plugin with handy selectors and shorthand methods
 
-All versions are equally functional.
+- A standalone, plain JavaScript function, `withinviewport()`
+- AMD and Node/CommonJS support
+- Optional jQuery plugin with handy selectors and shorthand methods
+
+All of the above offer the same features.
+
+## Note
+
+Although this plugin is still actively maintained, it will eventually be made obsolete by the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API). You can check the current state of browser compatibility at [caniuse.com](https://caniuse.com/#feat=intersectionobserver). Meanwhile, withinviewport will continue to work on current and [legacy browsers](#Browser-Support).
 
 ## Installation
 
@@ -46,7 +51,7 @@ jQuery plugin:
 ### Basic
 
 ```js
-// Returns true if the element is entirely within view
+// Returns true if the element is entirely within view of the window
 var elem = document.getElementById('#myElement');
 withinviewport(elem);
 ```
@@ -54,12 +59,17 @@ withinviewport(elem);
 ### Advanced
 
 ```js
-// Test against only some sides of the viewport for faster performance
+// Test against only some sides of the window for faster performance
 withinviewport(elem, {sides: 'left'});
 ```
 
 ```js
-// Define your own viewport by specifying thresholds for each side
+// Pick another element to act as the viewport (instead of `window`)
+withinviewport(elem, {container: document.getElementById('myElem')});
+```
+
+```js
+// Define your own viewport crop by specifying thresholds for each side
 // Example: element is at least 12px inside the top and right of the viewport
 withinviewport(elem, {top: 12, right: 12});
 ```
@@ -117,16 +127,16 @@ These shortcuts will result in slightly better performance if you're testing hun
 If you're looking to keep tabs on elements' whereabouts at all times, you can bind to the `window`'s `resize` and `scroll` events. Instead of `scroll`, I recommend using [James Padolsey's `scrollStop` event](http://james.padolsey.com/javascript/special-scroll-events-for-jquery/) since firing on every `window.scroll` event will [bring your UI to its knees](http://ejohn.org/blog/learning-from-twitter/).
 
 ```js
-$(window).bind('resize scrollStop', function() {
-  // Your code here...
+$(window).on('resize scrollStop', function() {
+    // Your code here...
 
-  // Example:
-  $('div')
-    // Declare all divs out of the viewport...
-    .removeClass('within-viewport');
-    // Then filter them to reveal which ones are still within it
-    .filter(':within-viewport')
-      .addClass('within-viewport');
+    // Example:
+    $('div')
+        // Momentarily declare all divs out of the viewport...
+        .removeClass('within-viewport');
+        // Then filter them to reveal which ones are still within it
+        .filter(':within-viewport')
+            .addClass('within-viewport');
 });
 ```
 
@@ -136,18 +146,30 @@ A future version will allow you to fire custom events when elements pass in and 
 
 This applies to both the jQuery plugin and standalone function.
 
-Use the object `withinView.defaults` to define your page's practical viewport compared to the actual browser viewport.
+Use the object `withinviewport.defaults` to define your page's practical viewport compared to the actual browser window.
+
+### Custom viewport element
+
+If you want to test whether an element is within a scrollable parent element (e.g. which has `overflow: auto`), assign the parent element to the `container` property:
+
+```js
+$('.child-element').withinviewport({
+    container: $('.parent-element')
+});
+```
+
+### Custom boundaries
 
 For example, a fixed header with a height of 100px that spans the entire width of the page effectively lowers the viewport by 100px from the top edge of the browser window:
 
 ```js
-withinView.defaults.top = 100;
+withinviewport.defaults.top = 100;
 ```
 
 If you only care about some edges of the viewport, you can specify them to improve performance:
 
 ```js
-withinView.defaults.sides = 'left bottom';
+withinviewport.defaults.sides = 'left bottom';
 ```
 
 You can also pass settings on the fly to temporarily override the defaults:
@@ -167,20 +189,18 @@ You can specify *negative threshold values* to allow elements to reside outside 
 
 ## Browser Support
 
-- IE 7 and higher
+- IE 7(?) and higher
 - All the others except Opera Mini
     + Tested in the latest stable Chrome, Firefox, Safari, and IE
     + No "new" JavaScript or quirky techniques are employed so it should work in all other modern browsers not specifically mentioned above
 
 ## What's Next
 
-*Please note that the camel case `withinViewport` method name is deprecated. It will be removed in a future release.*
+*Please note that the camel case `withinViewport` method name is deprecated and is no longer supported as of version 2.0.0.*
 
 - Option to **fire events** when elements pass in and out of the viewport
 - Test against Firefox 3.6, Safari 5.0.1
-- ~~Support IE7~~
 
-No IE6 support is planned &mdash; if you'd like to add it, feel free to make a pull request.
 
 ## Credit
 
@@ -191,8 +211,8 @@ Within Viewport is inspired by these similar utilities which only reflect whethe
 
 ## License
 
-Have fun with it &mdash; [ISC](http://choosealicense.com/licenses/isc/). See included LICENSE file.
+Have fun with it &mdash; [ISC](http://choosealicense.com/licenses/isc/). See included [LICENSE](LICENSE) file.
 
 ## Author
 
-Craig Patik, [patik.com](http://patik.com/) & [@craigpatik](https://twitter.com/craigpatik)
+Craig Patik, [patik.com](http://patik.com/) &amp; [@craigpatik](https://twitter.com/craigpatik)
