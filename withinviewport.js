@@ -71,11 +71,6 @@
         config.bottom = settings.bottom || metadata.bottom || withinviewport.defaults.bottom || 0;
         config.left = settings.left || metadata.left || withinviewport.defaults.left || 0;
 
-        // Extract the DOM node from a jQuery collection
-        if (typeof jQuery !== 'undefined' && config.container instanceof jQuery) {
-            config.container = config.container.get(0);
-        }
-
         // Use the window as the container if the user specified the body or a non-element
         if (config.container === document.body || config.container.nodeType !== 1) {
             config.container = window;
