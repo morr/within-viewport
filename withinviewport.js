@@ -45,11 +45,6 @@
         var side;
         var i;
 
-        // If invoked by the jQuery plugin, get the actual DOM element
-        if (typeof jQuery !== 'undefined' && elem instanceof jQuery) {
-            elem = elem.get(0);
-        }
-
         if (typeof elem !== 'object' || elem.nodeType !== 1) {
             throw new Error('First argument must be an element');
         }

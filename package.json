@@ -1,5 +1,5 @@
 {
-    "name": "withinviewport",
+    "name": "@morr/withinviewport",
     "version": "2.1.2",
     "description": "Determine whether an element is completely within the browser viewport",
     "main": "withinviewport.js",
@@ -8,7 +8,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/patik/within-viewport.git"
+        "url": "https://github.com/morr/within-viewport.git"
     },
     "keywords": [
         "within-viewport",
@@ -23,8 +23,5 @@
     ],
     "author": "Craig Patik <craig@patik.com> (http://patik.com)",
     "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/patik/within-viewport/issues"
-    },
     "homepage": "http://patik.github.io/within-viewport"
 }
